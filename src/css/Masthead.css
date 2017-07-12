@@ -1,0 +1,350 @@
+/* =============================================================================
+// Masthead.css
+// -----------------------------------------------------------------------------
+// Masthead styles.
+// ========================================================================== */
+
+/* =============================================================================
+// TABLE OF CONTENTS
+// -----------------------------------------------------------------------------
+//   01. Base
+//   02. Sections
+//   03. Title
+//   04. Forms
+//   05. Toggle
+// ========================================================================== */
+
+/* Base
+// ========================================================================== */
+
+.Masthead {
+  grid-area: masthead;
+  position: relative;
+  width: 20em;
+  height: 100%;
+  margin-left: -20em;
+  font-size: calc(0.275vw + 12px);
+  color: #42454e;
+  transition-duration: 0.3s;
+  transition-property: margin;
+  transition-timing-function: ease;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+.Masthead-BG {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 17, 17, 0.65);
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.ps-container {
+  position: relative;
+  background-color: #111111;
+  transform: translate3d(100%, 0, 0);
+  transition-duration: 0.3s;
+  transition-property: transform;
+  transition-timing-function: ease;
+  pointer-events: auto;
+  z-index: 9999;
+}
+
+
+/* Active
+// --- */
+
+.Masthead.Active .Masthead-BG {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.Masthead.Active .ps-container {
+  transform: translate3d(0, 0, 0);
+}
+
+
+/* Large Screens
+// ---------- */
+
+@media (min-width: 1180px) {
+  .Masthead {
+    margin-left: 0;
+  }
+
+  .Masthead-BG {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .Masthead .ps-container,
+  .Masthead.Active .ps-container {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
+/* Miscellaneous
+// ---------- */
+
+.ps-container > .ps-scrollbar-y-rail {
+  width: 10px !important;
+  background-color: transparent !important;
+}
+
+.ps-container > .ps-scrollbar-y-rail .ps-scrollbar-y {
+  width: 6px !important;
+  background-color: #42454e !important;
+}
+
+
+
+/* Sections
+// ========================================================================== */
+
+.Masthead-Sections {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.Masthead section {
+  position: relative;
+  padding: 2em;
+}
+
+.Masthead section:not(:last-child) {
+  border-bottom: 2px solid rgba(59, 62, 72, 0.325);
+}
+
+
+
+/* Title
+// ========================================================================== */
+
+.Masthead h1 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  margin-bottom: 0.35em;
+  font-size: 2.15em;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.Masthead h1:before {
+  content: "";
+  display: block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.285em;
+  border: 2px solid currentColor;
+  border-radius: 100rem;
+  color: #4353ff;
+  background-color: transparent;
+}
+
+.Masthead p:not(:last-child) {
+  margin-bottom: 0.825em;
+}
+
+.Masthead p > a {
+  color: inherit;
+}
+
+
+
+/* Forms
+// ========================================================================== */
+
+.Masthead label {
+  display: block;
+  margin-bottom: 0.825em;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.Masthead .Input {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  position: relative;
+}
+
+.Masthead .Input a,
+.Masthead .Input button,
+.Masthead .Input input,
+.Masthead .Input.Input-Select {
+  height: 2.5em;
+}
+
+.Masthead .Input a,
+.Masthead .Input button,
+.Masthead .Input input,
+.Masthead .Input select {
+  flex: 1 0 0%;
+  position: relative;
+  border: 2px solid #42454e;
+  border-radius: 0.375em;
+  padding: 0 0.75em;
+  font-size: 1em;
+  text-align: center;
+  background-color: transparent;
+}
+
+.Masthead .Input button,
+.Masthead .Input input,
+.Masthead .Input select {
+  color: #ffffff;
+}
+
+.Masthead .Input a,
+.Masthead .Input button {
+  line-height: 2.25em;
+  text-decoration: none;
+}
+
+.Masthead .Input a {
+  color: inherit;
+}
+
+.Masthead .Input button:first-child:nth-last-child(2),
+.Masthead .Input button:first-child:nth-last-child(2) ~ button {
+  flex: 0 0 calc(50% - (1.5em / 4));
+}
+
+.Masthead .Input button:first-child:nth-last-child(3),
+.Masthead .Input button:first-child:nth-last-child(3) ~ button {
+  flex: 0 0 calc(33.33333% - (1.5em / 3));
+}
+
+.Masthead .Input button:first-child:nth-last-child(4),
+.Masthead .Input button:first-child:nth-last-child(4) ~ button {
+  flex: 0 0 calc(25% - (1.5em / 2));
+}
+
+.Masthead .Input a:hover,
+.Masthead .Input a:focus,
+.Masthead .Input button:hover,
+.Masthead .Input button:focus,
+.Masthead .Input input:hover,
+.Masthead .Input input:focus,
+.Masthead .Input select:hover,
+.Masthead .Input select:focus {
+  outline: 0;
+  background-color: rgba(59, 62, 72, 0.25);
+}
+
+.Masthead .Input button.Active {
+  border-color: #4353ff;
+}
+
+.Masthead .Input.Input-Select:before {
+  content: "\25BC";
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0.75em;
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+  line-height: 1em;
+  text-align: center;
+  color: inherit;
+  transform: translate(0, -50%);
+}
+
+.Masthead .Input.Input-Select select {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  cursor: pointer;
+}
+
+
+
+/* Toggle
+// ========================================================================== */
+
+.Masthead-Toggle {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.25em;
+  height: 1.25em;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: 4em;
+  color: inherit;
+  background-color: transparent;
+  transition-duration: 0.3s;
+  transition-property: color, opacity;
+  transition-timing-function: ease;
+  opacity: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+@media (min-width: 1180px) {
+  .Masthead-Toggle {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+
+/* Toggle Graphic
+// ----------- */
+
+.Masthead-Toggle i {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  height: 2px;
+  background-color: currentColor;
+  transform: translate3d(-50%, -50%, 0);
+  transition-duration: 0.3s;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+}
+
+.Masthead-Toggle i:nth-child(1) { transform: translate3d(-50%, calc(-0.125em - 100%), 0); }
+.Masthead-Toggle i:nth-child(3) { transform: translate3d(-50%, calc(0.125em - 0%), 0);  }
+
+
+/* Toggle Interactions
+// ---------------- */
+
+.Masthead-Toggle:hover {
+  color: #ffffff;
+}
+
+.Masthead-Toggle:focus {
+  outline: 0;
+}

@@ -1,0 +1,174 @@
+/* =============================================================================
+// StepInput.css
+// -----------------------------------------------------------------------------
+// Diagram styles.
+// ========================================================================== */
+
+/* =============================================================================
+// TABLE OF CONTENTS
+// -----------------------------------------------------------------------------
+//   01. Base
+//   02. Adjust
+//   03. Adjust Buttons
+// ========================================================================== */
+
+/* Base
+// ========================================================================== */
+
+.StepInput {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  font-size: calc(1em / 20);
+  color: #4353ff;
+  z-index: 100;
+}
+
+.StepInput:focus {
+  outline: 0;
+}
+
+.StepInput-Input {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 100em;
+  padding: 0;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.75;
+  text-align: center;
+  color: currentColor;
+  background-color: transparent;
+  transition-duration: 0.15s;
+  transition-property: color;
+  transition-timing-function: ease;
+  cursor: default;
+}
+
+div.StepInput-Input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.StepInput-Input::-moz-selection { background-color: transparent; }
+.StepInput-Input::selection      { background-color: transparent; } 
+
+.StepInput-Input:focus {
+  outline: 0;
+}
+
+.StepInput.Active .StepInput-Input {
+  color: #ffffff;
+}
+
+
+
+/* Adjust
+// ========================================================================== */
+
+.StepInput-Adjust {
+  visibility: hidden;
+  display: flex;
+  position: absolute;
+  left: 50%;
+  bottom: 92.5%;
+  border-radius: 0.25em;
+  font-size: calc(1em / 1.35);
+  color: currentColor;
+  background-color: currentColor;
+  opacity: 0;
+  transform: translate3d(-50%, 15%, 0) scale(0.85);
+  transition-delay: 0.15s, 0s, 0s;
+  transition-duration: 0s, 0.15s, 0.15s;
+  transition-property: visibility, transform, opacity;
+  transition-timing-function: ease;
+  filter: drop-shadow(0.1em 0.15em 0.35em rgba(0, 0, 0, 0.215));
+  pointer-events: none;
+  z-index: 100;
+}
+
+.StepInput.Active .StepInput-Adjust {
+  visibility: visible;
+  opacity: 1;
+  transform: translate3d(-50%, -2.5%, 0) scale(1);
+  transition-delay: 0s;
+  transition-duration: 0.15s;
+  pointer-events: auto;
+}
+
+.StepInput-Adjust:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -0.75em;
+  left: -0.75em;
+  right: -0.75em;
+  bottom: -2.75em;
+  background-color: transparent;
+  z-index: -1;
+}
+
+.StepInput-Adjust:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border: 0.35em solid transparent;
+  border-top-color: currentColor;
+  z-index: -1;
+}
+
+
+
+/* Adjust Buttons
+// ========================================================================== */
+
+.StepInput-Adjust button {
+  position: relative;
+  width: 1.75em;
+  height: 1.75em;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: 1.25em;
+  line-height: 1.35em;
+  text-align: center;
+  color: #ffffff;
+  background-color: transparent;
+  opacity: 0.5;
+  transition-duration: 0.15s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  cursor: pointer;
+  appearance: none;
+}
+
+.StepInput-Adjust button:hover,
+.StepInput-Adjust button:focus {
+  opacity: 1;
+}
+
+.StepInput-Adjust button:focus {
+  outline: 0;
+}
+
+.StepInput-Adjust button span {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  line-height: 0.915em;
+  transform: translate3d(-50%, -50%, 0);
+  pointer-events: none;
+}

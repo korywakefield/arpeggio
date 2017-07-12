@@ -1,0 +1,179 @@
+/* =============================================================================
+// Diagram.css
+// -----------------------------------------------------------------------------
+// Diagram styles.
+// ========================================================================== */
+
+/* =============================================================================
+// TABLE OF CONTENTS
+// -----------------------------------------------------------------------------
+//   01. Base
+//   02. Header
+//   03. Chart
+//   04. Sidebars
+// ========================================================================== */
+
+/* Base
+// ========================================================================== */
+
+.Diagram-Canvas {
+  grid-area: diagram;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  font-size: 84vmin;
+}
+
+.Diagram {
+  display: grid;
+  grid-template-areas:
+    "d_headline d_headline d_headline"
+    "d_left d_chart d_right"
+  ;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr;
+  justify-content: start;
+  align-items: stretch;
+  align-content: start;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+}
+
+
+
+/* Header
+// ========================================================================== */
+
+.Diagram-Headline {
+  grid-area: d_headline;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 1em;
+  font-size: calc(1em / 7.015);
+  line-height: 1em;
+  text-align: center;
+  color: inherit;
+}
+
+.Diagram-Headline > span {
+  display: block;
+  width: 100%;
+  font-size: 0.5em;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.Diagram-Headline abbr {
+  text-decoration: none;
+  color: #ffffff;
+  cursor: help;
+}
+
+.Diagram-Headline strong {
+  color: #ffffff;
+}
+
+.Diagram-Headline small {
+  display: block;
+  margin-top: 0.35em;
+  margin-left: -0.135em;
+  font-size: 0.35em;
+  letter-spacing: 0.135em;
+  text-transform: uppercase;
+}
+
+
+
+/* Chart
+// ========================================================================== */
+
+.Diagram-Chart {
+  grid-area: d_chart;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  position: relative;
+  font-size: 1em;
+}
+
+
+
+/* Sidebars
+// ========================================================================== */
+
+[class*="Diagram-Sidebar"] {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: calc(1em / 10);
+  font-size: 1em;
+  text-align: center;
+}
+
+.Diagram-Chart-Frets-3 [class*="Diagram-Sidebar"] { padding: calc((1em - (1em / 7.015)) / (3 + 2)) 0; }
+.Diagram-Chart-Frets-4 [class*="Diagram-Sidebar"] { padding: calc((1em - (1em / 7.015)) / (4 + 2)) 0; }
+.Diagram-Chart-Frets-5 [class*="Diagram-Sidebar"] { padding: calc((1em - (1em / 7.015)) / (5 + 2)) 0; }
+
+[class*="Diagram-Sidebar"] > div {
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: calc(1em / 20);
+}
+
+.Diagram-Chart-Frets-3 [class*="Diagram-Sidebar"] > div { flex-basis: calc(100% / 3); }
+.Diagram-Chart-Frets-4 [class*="Diagram-Sidebar"] > div { flex-basis: calc(100% / 4); }
+.Diagram-Chart-Frets-5 [class*="Diagram-Sidebar"] > div { flex-basis: calc(100% / 5); }
+
+[class*="Diagram-Sidebar"] > div:not(.StepInput) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Sidebar: Left
+// ---------- */
+
+.Diagram-Sidebar-Left {
+  grid-area: d_left;
+}
+
+
+/* Sidebar: Right
+// ---------- */
+
+.Diagram-Sidebar-Right {
+  grid-area: d_right;
+}
+
+.Diagram-Sidebar-Right button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: 700;
+  color: inherit;
+  background-color: transparent;
+  transition-duration: 0.15s;
+  transition-property: color;
+  transition-timing-function: ease;
+}
+
+.Diagram-Sidebar-Right button:not([disabled]) {
+  color: #4353ff;
+}
+
+.Diagram-Sidebar-Right button:not([disabled]):hover,
+.Diagram-Sidebar-Right button:not([disabled]):focus {
+  color: #ffffff;
+  outline: 0;
+}

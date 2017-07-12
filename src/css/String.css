@@ -1,0 +1,300 @@
+/* =============================================================================
+// String.css
+// -----------------------------------------------------------------------------
+// Diagram styles.
+// ========================================================================== */
+
+/* =============================================================================
+// TABLE OF CONTENTS
+// -----------------------------------------------------------------------------
+//   01. String
+//   02. Notes
+//   03. Notes: Open
+//   04. Notes: Fret
+//   04. Notes: Root
+//   06. Notes: Interactions
+//   07. Graphic Strings
+//   08. Graphic Frets
+// ========================================================================== */
+
+/* String
+// ========================================================================== */
+
+.String {
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: 1fr;
+  position: relative;
+  font-size: 1em;
+}
+
+
+
+/* Notes
+// ========================================================================== */
+
+.Note {
+  position: relative;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+  background-color: transparent;
+  z-index: 1;
+}
+
+.Note i {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3em;
+  height: 3em;
+  border: 2px solid currentColor;
+  border-radius: 100rem;
+  font-weight: 700;
+  line-height: 3em;
+  text-align: center;
+  color: currentColor;
+  transform: translate(-50%, -50%);
+  transition-duration: 0.00001s;
+  transition-property: color, border-color, opacity;
+  transition-timing-function: ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.Diagram-Chart-Frets-3 .Note i { font-size: calc(1em / 32); }
+.Diagram-Chart-Frets-4 .Note i { font-size: calc(1em / 36); }
+.Diagram-Chart-Frets-5 .Note i { font-size: calc(1em / 40); }
+
+@media (min-height: 425px) {
+  .Note i {
+    border-width: 2px;
+  }
+}
+
+.Note span {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  width: inherit;
+  height: inherit;
+  transform: translate(-50%, -50%);
+  font-style: normal;
+  line-height: inherit;
+  color: #ffffff;
+  opacity: 0;
+  transition-duration: 0.00001s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+
+
+/* Notes: Open
+// ========================================================================== */
+
+.Open i:before,
+.Open i:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0.325em;
+  right: 0.325em;
+  height: 2px;
+  margin: 0 auto;
+  background-color: currentColor;
+  opacity: 0;
+  transition-duration: 0.00001s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.Open i:before { transform: translate3d(0, -50%, 0) rotate(-45deg); }
+.Open i:after  { transform: translate3d(0, -50%, 0) rotate(45deg);  }
+
+@media (min-height: 425px) {
+  .Open i:before,
+  .Open i:after {
+    height: 2px;
+  }
+}
+
+.Open:not(.Active) i {
+  border-color: transparent;
+}
+
+.Open:not(.Active) i:before,
+.Open:not(.Active) i:after {
+  opacity: 1;
+}
+
+
+
+/* Notes: Fret
+// ========================================================================== */
+
+.Fret i {
+  background-color: currentColor;
+  opacity: 0;
+}
+
+
+
+/* Notes: Root
+// ========================================================================== */
+
+.Root i {
+  border-radius: 0.375em;
+}
+
+
+
+/* Notes: Interactions
+// ========================================================================== */
+
+.Note:focus {
+  outline: none;
+}
+
+.Note:focus i,
+.Note:hover i {
+  color: #3b3e48;
+  opacity: 1;
+}
+
+.Note.Hide i:before,
+.Note.Hide i:after {
+  width: calc(1em / 1.25);
+  height: calc(1em / 1.25);
+  border-radius: 100em;
+  transform: translate3d(0, -50%, 0) rotate(0deg);
+}
+
+.Note.Active i {
+  color: #4353ff;
+  opacity: 1;
+}
+
+.Note:focus span,
+.Note:hover span {
+  opacity: 0.225;
+}
+
+.Note.Active span {
+  opacity: 1;
+}
+
+/*.Note.Remove i {
+  color: #ff4343;
+}*/
+
+/*.Note.Remove span {
+  text-indent: -9999em;
+}*/
+
+/*.Note.Remove span:before {
+  content: "✕";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+  line-height: 1em;
+  text-indent: 0;
+  transform: translate(-50%, -50%);
+}*/
+
+
+/* Open Notes
+// ------- */
+
+.Open:focus i,
+.Open:hover i {
+  border-color: currentColor;
+}
+
+.Open:focus i:before,
+.Open:hover i:before,
+.Open:focus i:after,
+.Open:hover i:after {
+  opacity: 0;
+}
+
+
+
+/* Graphic Strings
+// ========================================================================== */
+
+.Fret:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  margin: 0 auto;
+  background-color: currentColor;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (min-height: 425px) {
+  .Fret:before {
+    width: 2px;
+  }
+}
+
+
+
+/* Graphic Frets
+// ========================================================================== */
+
+.Fret:after {
+  position: absolute;
+  height: 2px;
+  background-color: currentColor;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (min-height: 425px) {
+  .Fret:after {
+    height: 2px;
+  }
+}
+
+.String:first-of-type .Fret:after {
+  content: "";
+  display: block;
+  top: 0;
+}
+
+.String:last-of-type .Fret:last-of-type:after {
+  content: "";
+  display: block;
+  bottom: 0;
+}
+
+.Diagram-Chart-Strings-4 .Fret:after                                   { width: calc(((1em - (1em / 10) * 2) / 4) * (4 - 1)); }
+.Diagram-Chart-Strings-4 .String:first-of-type .Fret:after             { left: calc((1em / 10) / 4 * (6 - 2));                }
+.Diagram-Chart-Strings-4 .String:last-of-type .Fret:last-of-type:after { right: calc((1em / 10) / 4 * (6 - 2));               }
+
+.Diagram-Chart-Strings-5 .Fret:after                                   { width: calc(((1em - (1em / 10) * 2) / 5) * (5 - 1)); }
+.Diagram-Chart-Strings-5 .String:first-of-type .Fret:after             { left: calc((1em / 10) / 5 * (6 - 2));                }
+.Diagram-Chart-Strings-5 .String:last-of-type .Fret:last-of-type:after { right: calc((1em / 10) / 5 * (6 - 2));               }
+
+.Diagram-Chart-Strings-6 .Fret:after                                   { width: calc(((1em - (1em / 10) * 2) / 6) * (6 - 1)); }
+.Diagram-Chart-Strings-6 .String:first-of-type .Fret:after             { left: calc((1em / 10) / 6 * (6 - 2));                }
+.Diagram-Chart-Strings-6 .String:last-of-type .Fret:last-of-type:after { right: calc((1em / 10) / 6 * (6 - 2));               }
