@@ -1,4 +1,4 @@
-![Arpeggio](https://github.com/korywakefield/name-that-chord/blob/master/public/og.png)
+![Arpeggio](https://github.com/korywakefield/arpeggio/blob/master/public/og.png)
 
 # [Arpeggio](http://korywakefield.com/arpeggio/)
 
