@@ -58,7 +58,7 @@
   text-align: center;
   color: currentColor;
   transform: translate(-50%, -50%);
-  transition-duration: 0.00001s;
+  transition-duration: 0.15s;
   transition-property: color, border-color, opacity;
   transition-timing-function: ease;
   pointer-events: none;
@@ -87,7 +87,7 @@
   line-height: inherit;
   color: #ffffff;
   opacity: 0;
-  transition-duration: 0.00001s;
+  transition-duration: 0.15s;
   transition-property: opacity;
   transition-timing-function: ease;
   pointer-events: none;
@@ -111,7 +111,7 @@
   margin: 0 auto;
   background-color: currentColor;
   opacity: 0;
-  transition-duration: 0.00001s;
+  transition-duration: 0.15s;
   transition-property: opacity;
   transition-timing-function: ease;
 }
