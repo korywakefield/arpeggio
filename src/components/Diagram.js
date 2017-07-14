@@ -39,13 +39,19 @@ class Diagram extends Component {
   // Notes
   // -----
   // 01. Gathers selected notes and sorts them for equality check later on.
-  // 02. Loop through each chord from chordData() and use our current "root"
-  //     to get notes for each chord based off its formula (theCurrentNotes).
-  // 03. theCurrentNotes is sorted to be used for equality check.
-  // 04. Compare theSelectedNotes with theCurrentNotes. If array lengths are
-  //     the same and every item inside is equal, we have a match and the
-  //     chordData() for that chord is pushed to our output along with some
-  //     additional information to be used later.
+  // 02. chordNotesFull contains every possible note in a chord's formula.
+  // 03. chordNotesCore eliminates unnecessary notes from chordNotesFull and
+  //     gives us the bare essential notes to represent a chord's tonality.
+  // 04. The first line of the match checks every selected note to see if it is
+  //     included within chordNotesFull. This keeps out false matches such as
+  //     chords with lesser notes in their formula than what is currently
+  //     selected (e.g. "E" when the notes of an "E7" are selected), or times
+  //     where a "core" match might exist, but the selected notes contain notes
+  //     outside of the chord's "full" formula (e.g. selecting the notes
+  //     "E", "D", "G♯", and "C#" match an "E6" chord's core formula, but the
+  //     "D" is a ♭7 in relation to the "E", making the chord truly an "E13").
+  // 05. The second line of the match checks that all core notes to a chord
+  //     are present in the current selected notes.
   //
   // E.G. 1 note is selected ("E"):
   // return []
@@ -58,16 +64,22 @@ class Diagram extends Component {
     let theChords        = [];
     let theSelectedNotes = this.selectedNotes().sort(); // 01
 
-    theSelectedNotes.forEach((note, iNote) => {
-      chordData().forEach((chord, iChord) => { // 02
-        let theCurrentNotes = getNotesFromFormula(note, chord.formula, this.props.useSharps).sort(); // 03
-        if ( theCurrentNotes.length === theSelectedNotes.length && theCurrentNotes.every((el, i, arr) => { return el === theSelectedNotes[i] }) ) { // 04
-          let theChordData         = chordData()[iChord];
-          theChordData.noteRoot    = note;
-          theChordData.noteLowest  = this.selectedNotes()[0];
-          theChordData.isInversion = theChordData.noteRoot !== theChordData.noteLowest;
-          theChords.push(theChordData);
+    chordData().forEach((chord, iChord) => {
+      theSelectedNotes.forEach((note, iNote) => {
+
+        let chordNotesFull = getNotesFromFormula(note, chord.formula, this.props.useSharps); // 02
+        let chordNotesCore = chordNotesFull.filter((el, i, arr) => { return chord.formulaOptInd.indexOf(i) < 0 }); // 03
+        let isMatch        = theSelectedNotes.every((el, i, arr) => { return chordNotesFull.includes(el) }) // 04
+                          && chordNotesCore.every((el, i, arr) => { return theSelectedNotes.includes(el) }); // 05
+
+        if ( isMatch ) { 
+          chord.noteRoot    = note;
+          chord.noteLowest  = this.selectedNotes()[0];
+          chord.isInversion = chord.noteRoot !== chord.noteLowest;
+          chord.isPartial   = chord.formula.length > theSelectedNotes.length;
+          theChords.push(chord);
         }
+
       });
     });
 
@@ -121,12 +133,12 @@ class Diagram extends Component {
 
       let outputSymbol  = ( theChord.isInversion ) ? `${theChord.noteRoot + theChord.symbol} / ${theChord.noteLowest}` : `${theChord.noteRoot + theChord.symbol}`;
       let outputName    = ( theChord.isInversion ) ? `${theChord.noteRoot} ${theChord.name} over ${theChord.noteLowest}` : `${theChord.noteRoot} ${theChord.name}`;
-      let outputFormula = `Interval Formula: ${theChord.formulaSymbol}`;
+      let outputFormula = theChord.formulaSymbol.map((el, i, arr) => { return <span key={i}><i>{el}</i></span>; });
 
       return <h2 className="Diagram-Headline">
                <span>
-                 <abbr title={outputName + ' (' + outputFormula + ')'}>{outputSymbol}</abbr>
-                 <small>{outputFormula}</small>
+                 <abbr title={outputName}>{outputSymbol}</abbr>
+                 <small>Formula: {outputFormula}</small>
                </span>
              </h2>;
 
