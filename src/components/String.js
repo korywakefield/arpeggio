@@ -31,7 +31,7 @@ class String extends Component {
       classNameArr.push('Active');
     }
 
-    return classNameArr.join(' ').trim();
+    return classNameArr.join(' ');
 
   }
 
@@ -53,8 +53,8 @@ class String extends Component {
                       value={noteValue}
                       className={this.renderNoteClassName(noteType, i, noteValue)}
                       onClick={(e) => this.props.updateSelectedNote(e)}
-                      // onMouseEnter={(e) => { ( e.target.classList.value.includes('Active') ) ? e.target.classList.add('Remove') : ''; }}
-                      // onMouseOut={(e) => { ( e.target.classList.value.includes('Remove') ) ? e.target.classList.remove('Remove') : ''; }}
+                      onMouseEnter={(e) => { e.target.classList.value.includes('Active') ? e.target.classList.add('Remove') : ''; }}
+                      onMouseOut={(e) => { e.target.classList.value.includes('Remove') ? e.target.classList.remove('Remove') : ''; }}
                       data-string-id={this.props.id}
                       id={i}
                       key={i}
