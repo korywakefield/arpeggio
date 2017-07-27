@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { textifyAccidental } from '../helpers';
 import '../css/Masthead.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
@@ -31,14 +32,14 @@ class Masthead extends Component {
               <label>Accidentals</label>
               <div className="Input">
                 <button
-                  onClick={(e) => this.props.updateSharpsFlats(e)}
-                  className={this.props.useSharps === true ? 'Active' : ''}
-                  value="sharps">♯
+                  onClick={(e) => this.props.updateAccidentals(e)}
+                  className={this.props.state.accidentals === '♯' ? 'Active' : ''}
+                  value="♯">{textifyAccidental('♯')}
                 </button>
                 <button
-                  onClick={(e) => this.props.updateSharpsFlats(e)}
-                  className={this.props.useSharps === false ? 'Active' : ''}
-                  value="flats">♭
+                  onClick={(e) => this.props.updateAccidentals(e)}
+                  className={this.props.state.accidentals === '♭' ? 'Active' : ''}
+                  value="♭">{textifyAccidental('♭')}
                 </button>
               </div>
             </section>
@@ -47,17 +48,12 @@ class Masthead extends Component {
               <div className="Input">
                 <button
                   onClick={(e) => this.props.updateDiagramFrets(e)}
-                  className={this.props.frets === 3 ? 'Active' : ''}
-                  value={3}>3
-                </button>
-                <button
-                  onClick={(e) => this.props.updateDiagramFrets(e)}
-                  className={this.props.frets === 4 ? 'Active' : ''}
+                  className={this.props.state.diagramFrets === 4 ? 'Active' : ''}
                   value={4}>4
                 </button>
                 <button
                   onClick={(e) => this.props.updateDiagramFrets(e)}
-                  className={this.props.frets === 5 ? 'Active' : ''}
+                  className={this.props.state.diagramFrets === 5 ? 'Active' : ''}
                   value={5}>5
                 </button>
               </div>

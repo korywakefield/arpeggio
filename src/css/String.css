@@ -59,7 +59,7 @@
   color: currentColor;
   transform: translate(-50%, -50%);
   transition-duration: 0.15s;
-  transition-property: color, border-color, opacity;
+  transition-property: color, border, opacity;
   transition-timing-function: ease;
   pointer-events: none;
   z-index: 5;
@@ -82,11 +82,11 @@
   left: 50%;
   width: inherit;
   height: inherit;
-  transform: translate(-50%, -50%);
   font-style: normal;
   line-height: inherit;
   color: #ffffff;
   opacity: 0;
+  transform: translate3d(-50%, -50%, 0);
   transition-duration: 0.15s;
   transition-property: opacity;
   transition-timing-function: ease;
@@ -194,6 +194,19 @@
 .Note.Remove i {
   color: inherit;
 }
+
+
+/* Accents
+// ---- */
+
+/*
+.Note.Accent-1 i { color: #4353ff; }
+.Note.Accent-2 i { color: #9085Da; }
+.Note.Accent-3 i { color: #ffab9d; }
+.Note.Accent-4 i { color: #38d996; }
+.Note.Accent-5 i { color: #ff6382; }
+.Note.Accent-6 i { color: #53b5fd; }
+*/
 
 
 /* Open Notes

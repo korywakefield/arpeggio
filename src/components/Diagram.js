@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { chordData, frets, chromatic, getNotesFromFormula, arrNextInt } from '../helpers';
+import { chordData, frets, chromatic, getNoteInfoFromFormula, arrNextInt, textifyAccidental } from '../helpers';
 import String from './String.js';
 import StepInput from './StepInput.js';
 import '../css/Diagram.css';
@@ -15,16 +15,16 @@ class Diagram extends Component {
   selectedNotes() {
 
     let theNotes  = [];
-    let thisStart = parseInt(this.props.fretStart, 10);
+    let thisStart = parseInt(this.props.state.diagramFretStart, 10);
     let thisNote;
 
-    for (let i = 0; i < this.props.strings.length; i++) {
-      if ( this.props.strings[i].selectedNote !== null ) {
-        thisNote = parseInt(this.props.strings[i].selectedNote, 10); // 01
+    for (let i = 0; i < this.props.state.diagramStrings.length; i++) {
+      if ( this.props.state.diagramStrings[i].selectedNote !== null ) {
+        thisNote = parseInt(this.props.state.diagramStrings[i].selectedNote, 10); // 01
         if ( thisNote === 0 ) {
-          theNotes.push(this.props.strings[i].tuning);
+          theNotes.push(this.props.state.diagramStrings[i].tuning);
         } else {
-          theNotes.push(arrNextInt(chromatic(this.props.useSharps), this.props.strings[i].tuning, thisStart + (thisNote - 1)));
+          theNotes.push(arrNextInt(chromatic(this.props.state.accidentals), this.props.state.diagramStrings[i].tuning, thisStart + (thisNote - 1)));
         }
       }
     }
@@ -48,7 +48,7 @@ class Diagram extends Component {
   //     selected (e.g. "E" when the notes of an "E7" are selected), or times
   //     where a "core" match might exist, but the selected notes contain notes
   //     outside of the chord's "full" formula (e.g. selecting the notes
-  //     "E", "D", "G♯", and "C#" match an "E6" chord's core formula, but the
+  //     "E", "D", "G♯", and "C♯" match an "E6" chord's core formula, but the
   //     "D" is a ♭7 in relation to the "E", making the chord truly an "E13").
   // 05. The second line of the match checks that all core notes to a chord
   //     are present in the current selected notes.
@@ -67,12 +67,14 @@ class Diagram extends Component {
     chordData().forEach((chord, iChord) => {
       theSelectedNotes.forEach((note, iNote) => {
 
-        let chordNotesFull = getNotesFromFormula(note, chord.formula, this.props.useSharps); // 02
+        let chordNotesInfo = getNoteInfoFromFormula(note, chord.formula, chord.formulaSymbol, this.props.state.accidentals); // 02
+        let chordNotesFull = Object.keys(chordNotesInfo);
         let chordNotesCore = chordNotesFull.filter((el, i, arr) => { return chord.formulaOptInd.indexOf(i) < 0 }); // 03
         let isMatch        = theSelectedNotes.every((el, i, arr) => { return chordNotesFull.includes(el) }) // 04
                           && chordNotesCore.every((el, i, arr) => { return theSelectedNotes.includes(el) }); // 05
 
         if ( isMatch ) { 
+          chord.chordMap    = chordNotesInfo;
           chord.noteRoot    = note;
           chord.noteLowest  = this.selectedNotes()[0];
           chord.isInversion = chord.noteRoot !== chord.noteLowest;
@@ -131,9 +133,12 @@ class Diagram extends Component {
 
     } else {
 
-      let outputSymbol  = ( theChord.isInversion ) ? `${theChord.noteRoot + theChord.symbol} / ${theChord.noteLowest}` : `${theChord.noteRoot + theChord.symbol}`;
-      let outputName    = ( theChord.isInversion ) ? `${theChord.noteRoot} ${theChord.name} over ${theChord.noteLowest}` : `${theChord.noteRoot} ${theChord.name}`;
-      let outputFormula = theChord.formulaSymbol.map((el, i, arr) => { return <span key={i}><i>{el}</i></span>; });
+      let theSelectedNotes = this.selectedNotes();
+      let theChordNotes    = Object.keys(theChord.chordMap);
+
+      let outputSymbol     = ( theChord.isInversion ) ? textifyAccidental(`${theChord.noteRoot + theChord.symbol} / ${theChord.noteLowest}`) : textifyAccidental(`${theChord.noteRoot + theChord.symbol}`);
+      let outputName       = ( theChord.isInversion ) ? textifyAccidental(`${theChord.noteRoot} ${theChord.name} over ${theChord.noteLowest}`) : textifyAccidental(`${theChord.noteRoot} ${theChord.name}`);
+      let outputFormula    = theChordNotes.map((el, i, arr) => { return <span key={i}><i className={theSelectedNotes.includes(el) ? 'Active' : ''}>{textifyAccidental(theChord.chordMap[el])}</i></span>; });
 
       return <h2 className="Diagram-Headline">
                <span>
@@ -153,15 +158,13 @@ class Diagram extends Component {
 
   renderChart() {
     let theStrings = [], stringID;
-    for (let i = 0; i < this.props.strings.length; i++) {
+    for (let i = 0; i < this.props.state.diagramStrings.length; i++) {
       stringID = i;
       theStrings.push(<String
-                        useSharps={this.props.useSharps}
-                        frets={this.props.frets}
-                        fretStart={this.props.fretStart}
-                        strings={this.props.strings}
+                        state={this.props.state}
                         updateTuning={(e) => this.props.updateTuning(e)}
                         updateSelectedNote={(e) => this.props.updateSelectedNote(e)}
+                        selectedNotes={() => this.selectedNotes()}
                         selectedChords={() => this.selectedChords()}
                         currentChord={() => this.currentChord()}
                         id={stringID}
@@ -174,20 +177,20 @@ class Diagram extends Component {
 
   // Notes
   // -----
-  // Renders the StepInput to adjust the base fret number and displays the
-  // fret number of each successive fret.
+  // Renders the StepInput to adjust the base fret number and displays the fret
+  // number of each successive fret.
 
   renderSidebarLeft() {
 
     let nextFretNumbers = [];
 
-    for (let i = 1; i < this.props.frets; i++) {
-      nextFretNumbers.push(<div key={i}>{parseInt(this.props.fretStart, 10) + i}</div>);
+    for (let i = 1; i < this.props.state.diagramFrets; i++) {
+      nextFretNumbers.push(<div key={i}>{parseInt(this.props.state.diagramFretStart, 10) + i}</div>);
     }
 
     return <div className="Diagram-Sidebar-Left">
              <StepInput
-               value={this.props.fretStart}
+               value={this.props.state.diagramFretStart}
                values={frets()}
                updateValue={(e) => this.props.updateFretStart(e)}
              />
@@ -215,7 +218,7 @@ class Diagram extends Component {
   render() {
     return (
       <div className="Diagram-Canvas">
-        <div className={"Diagram Diagram-Chart-Strings-" + this.props.strings.length + " Diagram-Chart-Frets-" + this.props.frets}>
+        <div className={"Diagram Diagram-Chart-Strings-" + this.props.state.diagramStrings.length + " Diagram-Chart-Frets-" + this.props.state.diagramFrets}>
           {this.renderHeader()}
           {this.renderSidebarLeft()}
           {this.renderChart()}

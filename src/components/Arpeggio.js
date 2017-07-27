@@ -9,9 +9,9 @@ class Arpeggio extends Component {
   constructor() {
     super();
     this.state = {
-      useSharps        : true,
-      diagramFrets     : 4,
+      accidentals      : '♯',
       diagramFretStart : 1,
+      diagramFrets     : 4,
       diagramStrings   : [{ tuning : 'E', selectedNote : null },
                           { tuning : 'A', selectedNote : null },
                           { tuning : 'D', selectedNote : null },
@@ -27,7 +27,7 @@ class Arpeggio extends Component {
   // Updates the starting fret for the entire diagram.
 
   updateFretStart(e) {
-    this.setState({diagramFretStart : e.target.value});
+    this.setState({diagramFretStart : parseInt(e.target.value, 10)});
   }
 
 
@@ -79,15 +79,39 @@ class Arpeggio extends Component {
 
   // Notes
   // -----
+  // Stores the physical location of the selected note, not the note itself.
+  // (i.e. fret "3", not note "G"). Triggered onClick from individual notes.
+  //
+  // 01. Make a copy of our diagramStrings object to work.
+  // 02. Reset to null if previous note (currentNote) matches new selection.
+  // 03. Pass updated copy back into setState().
+
+  updateSelectedNotes(e) {
+
+    let noteID         = e.target.id;
+    let stringID       = e.target.attributes['data-string-id'].value;
+
+    let currentStrings = this.state.diagramStrings; // 01
+    let currentNote    = currentStrings[stringID].selectedNote;
+
+    currentStrings[stringID].selectedNote = ( currentNote === noteID ) ? null : noteID; // 02
+
+    this.setState({diagramStrings : currentStrings}); // 03
+
+  }
+
+
+  // Notes
+  // -----
   // Update state of using sharps or flats for display purposes and make sure
   // to clean this.state.diagramStrings.tuning for each string when necessary.
   //
   // 01. Make a copy of our diagramStrings object to work.
   // 02. Clean our flat/sharp notes to reflect proper values.
 
-  updateSharpsFlats(e) {
+  updateAccidentals(e) {
 
-    this.setState({useSharps : e.target.value === 'sharps' ? true : false});
+    this.setState({accidentals : e.target.value});
 
     let currentStrings = this.state.diagramStrings; // 01
 
@@ -131,16 +155,12 @@ class Arpeggio extends Component {
     return (
       <div className="Arpeggio">
         <Masthead
-          useSharps={this.state.useSharps}
-          frets={this.state.diagramFrets}
-          updateSharpsFlats={(e) => this.updateSharpsFlats(e)}
+          state={this.state}
+          updateAccidentals={(e) => this.updateAccidentals(e)}
           updateDiagramFrets={(e) => this.updateDiagramFrets(e)}
         />
         <Diagram
-          useSharps={this.state.useSharps}
-          frets={this.state.diagramFrets}
-          fretStart={this.state.diagramFretStart}
-          strings={this.state.diagramStrings}
+          state={this.state}
           updateFretStart={(e) => this.updateFretStart(e)}
           updateTuning={(e) => this.updateTuning(e)}
           updateSelectedNote={(e) => this.updateSelectedNote(e)}

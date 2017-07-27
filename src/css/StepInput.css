@@ -29,8 +29,10 @@
   outline: 0;
 }
 
-.StepInput-Input {
-  display: block;
+.StepInput-Value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   margin: 0;
   border: 0;
@@ -48,20 +50,10 @@
   cursor: default;
 }
 
-div.StepInput-Input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.StepInput-Value::-moz-selection { background-color: transparent; }
+.StepInput-Value::selection      { background-color: transparent; } 
 
-.StepInput-Input::-moz-selection { background-color: transparent; }
-.StepInput-Input::selection      { background-color: transparent; } 
-
-.StepInput-Input:focus {
-  outline: 0;
-}
-
-.StepInput.Active .StepInput-Input {
+.StepInput.Active .StepInput-Value {
   color: #ffffff;
 }
 

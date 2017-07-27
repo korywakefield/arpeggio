@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { arrPrevInt, arrNextInt } from '../helpers';
+import { arrPrevInt, arrNextInt, textifyAccidental } from '../helpers';
 import '../css/StepInput.css';
 
 class StepInput extends Component {
@@ -34,7 +34,7 @@ class StepInput extends Component {
         onMouseLeave={(e) => this.hide(e)}
         tabIndex="0"
       >
-        <div className="StepInput-Input">{this.props.value}</div>
+        <div className="StepInput-Value">{textifyAccidental(this.props.value)}</div>
         <div className="StepInput-Adjust">
           <button
             className="StepInput-Up"

@@ -23,7 +23,7 @@
   justify-content: center;
   align-items: center;
   padding: 0;
-  font-size: 86vmin;
+  font-size: 88vmin;
 }
 
 .Diagram {
@@ -81,27 +81,61 @@
 
 .Diagram-Headline small {
   display: block;
-  margin-top: 0.35em;
-  margin-left: -0.135em;
+  margin-top: 0.375em;
+  margin-right: -0.135em;
   font-size: 0.35em;
   letter-spacing: 0.135em;
   text-transform: uppercase;
 }
 
+.Diagram-Headline small span {
+  letter-spacing: 0;
+}
+
 .Diagram-Headline small span:not(:last-child):after {
-  content: " - ";
-  margin: 0 -0.215em;
-  font-weight: 400;
+  content: " ";
+  margin: 0 0.15em;
+  display: inline;
 }
 
 .Diagram-Headline small i {
+  display: inline-block;
   position: relative;
+  width: 2.25em;
   font-style: normal;
+  color: #ffffff;
+  z-index: 1;
+}
+
+.Diagram-Headline small i:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -0.15em;
+  left: 0;
+  right: 0;
+  bottom: -0.15em;
+  border-radius: 0.25em;
+  background-color: #3b3e48;
+  z-index: -1;
 }
 
 .Diagram-Headline small i.Active {
   color: #ffffff;
 }
+
+.Diagram-Headline small i.Active:before {
+  background-color: #4353ff;
+}
+
+/*
+.Diagram-Headline small i.Active.Accent-1:before { border-color: #4353ff; background-color: #4353ff; }
+.Diagram-Headline small i.Active.Accent-2:before { border-color: #9085Da; background-color: #9085Da; }
+.Diagram-Headline small i.Active.Accent-3:before { border-color: #ffab9d; background-color: #ffab9d; }
+.Diagram-Headline small i.Active.Accent-4:before { border-color: #38d996; background-color: #38d996; }
+.Diagram-Headline small i.Active.Accent-5:before { border-color: #ff6382; background-color: #ff6382; }
+.Diagram-Headline small i.Active.Accent-6:before { border-color: #53b5fd; background-color: #53b5fd; }
+*/
 
 
 
@@ -132,7 +166,6 @@
   text-align: center;
 }
 
-.Diagram-Chart-Frets-3 [class*="Diagram-Sidebar"] { padding: calc((1em - (1em / 7.015)) / (3 + 2)) 0; }
 .Diagram-Chart-Frets-4 [class*="Diagram-Sidebar"] { padding: calc((1em - (1em / 7.015)) / (4 + 2)) 0; }
 .Diagram-Chart-Frets-5 [class*="Diagram-Sidebar"] { padding: calc((1em - (1em / 7.015)) / (5 + 2)) 0; }
 
@@ -142,7 +175,6 @@
   font-size: calc(1em / 20);
 }
 
-.Diagram-Chart-Frets-3 [class*="Diagram-Sidebar"] > div { flex-basis: calc(100% / 3); }
 .Diagram-Chart-Frets-4 [class*="Diagram-Sidebar"] > div { flex-basis: calc(100% / 4); }
 .Diagram-Chart-Frets-5 [class*="Diagram-Sidebar"] > div { flex-basis: calc(100% / 5); }
 
